@@ -79,9 +79,7 @@ func getOptions(input string) []string {
 	return strings.Split(input, splitOptionCharacter)
 }
 
-func parseVideoSpec(input string) (VideoSpecs, error) {
-	videoSpecs := VideoSpecs{}
-
+func parseVideoSpec(input string, videoSpecs VideoSpecs) (VideoSpecs, error) {
 	if input == "x" {
 		videoSpecs.Disabled = true
 		return videoSpecs, nil
@@ -110,9 +108,7 @@ func parseVideoSpec(input string) (VideoSpecs, error) {
 	return videoSpecs, nil
 }
 
-func parseAudioSpec(input string) (AudioSpecs, error) {
-	audioSpecs := AudioSpecs{}
-
+func parseAudioSpec(input string, audioSpecs AudioSpecs) (AudioSpecs, error) {
 	if input == "x" {
 		audioSpecs.Disabled = true
 		return audioSpecs, nil
@@ -141,9 +137,7 @@ func parseAudioSpec(input string) (AudioSpecs, error) {
 	return audioSpecs, nil
 }
 
-func parseFormatOptions(input string) (FormatOptions, error) {
-	formatOptions := FormatOptions{}
-
+func parseFormatOptions(input string, formatOptions FormatOptions) (FormatOptions, error) {
 	for _, option := range getOptions(input) {
 		if option == formatOptionTwoPass {
 			formatOptions.TwoPass = true

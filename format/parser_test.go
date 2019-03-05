@@ -140,7 +140,7 @@ func TestParseVideoSpec(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run("input: "+c.input, func(t *testing.T) {
-			actual, err := parseVideoSpec(c.input)
+			actual, err := parseVideoSpec(c.input, VideoSpecs{})
 
 			assert.EqualValues(t, c.expected, actual)
 			if c.errorText == "" {
@@ -185,7 +185,7 @@ func TestParseAudioSpec(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run("input: "+c.input, func(t *testing.T) {
-			actual, err := parseAudioSpec(c.input)
+			actual, err := parseAudioSpec(c.input, AudioSpecs{})
 
 			assert.EqualValues(t, c.expected, actual)
 			if c.errorText == "" {
@@ -219,7 +219,7 @@ func TestParseFormatOptions(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run("input: "+c.input, func(t *testing.T) {
-			actual, err := parseFormatOptions(c.input)
+			actual, err := parseFormatOptions(c.input, FormatOptions{})
 
 			assert.EqualValues(t, c.expected, actual)
 			if c.errorText == "" {
