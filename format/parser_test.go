@@ -152,6 +152,51 @@ func TestParseVideoSpec(t *testing.T) {
 	}
 }
 
+func TestParseAudioSpec(t *testing.T) {
+	cases := []struct {
+		input     string
+		expected  AudioSpecs
+		errorText string
+	}{
+		{
+			input: "x",
+			expected: AudioSpecs{
+				Disabled: true,
+			},
+		},
+		{
+			input: "64k_22050hz_mono",
+			expected: AudioSpecs{
+				BitrateKbps:  64,
+				SampleRateHz: 22050,
+				AudioChannel: audioChannelMono,
+			},
+		},
+		{
+			input: "vorbis_44100hz_128k_stereo",
+			expected: AudioSpecs{
+				Codec:        "vorbis",
+				SampleRateHz: 44100,
+				BitrateKbps:  128,
+				AudioChannel: audioChannelStereo,
+			},
+		},
+	}
+
+	for _, c := range cases {
+		t.Run("input: "+c.input, func(t *testing.T) {
+			actual, err := parseAudioSpec(c.input)
+
+			assert.EqualValues(t, c.expected, actual)
+			if c.errorText == "" {
+				assert.Nil(t, err)
+			} else {
+				assert.EqualError(t, err, c.errorText)
+			}
+		})
+	}
+}
+
 func TestParseFormatOptions(t *testing.T) {
 	cases := []struct {
 		input     string

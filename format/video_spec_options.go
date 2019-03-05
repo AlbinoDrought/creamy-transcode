@@ -100,8 +100,8 @@ func parseVideoBitrate(input string, option *VideoSpecs) (bool, error) {
 		return true, err
 	}
 
-	if asInt >= bitrateMaximum {
-		return true, fmt.Errorf("maximum bitrate is %+v", bitrateMaximum)
+	if asInt > videoBitrateMaximum {
+		return true, fmt.Errorf("maximum video bitrate is %+v", videoBitrateMaximum)
 	}
 
 	option.BitrateKbps = asInt

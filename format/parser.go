@@ -110,6 +110,37 @@ func parseVideoSpec(input string) (VideoSpecs, error) {
 	return videoSpecs, nil
 }
 
+func parseAudioSpec(input string) (AudioSpecs, error) {
+	audioSpecs := AudioSpecs{}
+
+	if input == "x" {
+		audioSpecs.Disabled = true
+		return audioSpecs, nil
+	}
+
+	for _, option := range getOptions(input) {
+		handled := false
+		var err error
+		for _, optionHandler := range audioSpecOptions {
+			handled, err = optionHandler(option, &audioSpecs)
+
+			if err != nil {
+				return AudioSpecs{}, err
+			}
+
+			if handled {
+				break
+			}
+		}
+
+		if !handled {
+			return AudioSpecs{}, fmt.Errorf("unhandled audio option: %+v", option)
+		}
+	}
+
+	return audioSpecs, nil
+}
+
 func parseFormatOptions(input string) (FormatOptions, error) {
 	formatOptions := FormatOptions{}
 

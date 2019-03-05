@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var supportedCodecs = []string{
+var supportedVideoCodecs = []string{
 	"mpeg4",
 	"xvid",
 	"flv",
@@ -27,4 +27,20 @@ var supportedCodecs = []string{
 	"dnxhd",
 }
 
-var videoCodecRegex = regexp.MustCompile("^(" + strings.Join(supportedCodecs, "|") + ")$")
+var videoCodecRegex = regexp.MustCompile("^(" + strings.Join(supportedVideoCodecs, "|") + ")$")
+
+var supportedAudioCodecs = []string{
+	"mp3",
+	"mp2",
+	"aac",
+	"amr_nb",
+	"ac3",
+	"vorbis",
+	"flac",
+	"pcm_u8",
+	"pcm_s16le",
+	"pcm_alaw",
+	"wmav2",
+}
+
+var audioCodecRegex = regexp.MustCompile("^(" + strings.Join(supportedAudioCodecs, "|") + ")$")
