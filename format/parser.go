@@ -150,12 +150,29 @@ func parseFormatOptions(input string, formatOptions FormatOptions) (FormatOption
 	return formatOptions, nil
 }
 
-func Parse(input string) (FormatOptions, error) {
-	/*
-		pieces, err := splitPieces(input)
-		if err != nil {
-			return FormatOptions{}, err
-		}
-	*/
-	return FormatOptions{}, errors.New("foo")
+func Parse(input string) (Format, error) {
+	pieces, err := splitPieces(input)
+	if err != nil {
+		return Format{}, err
+	}
+
+	container := unaliasContainer(pieces.container)
+	format := getDefaultOptionsForContainer(container)
+
+	format.VideoSpecs, err = parseVideoSpec(pieces.video, format.VideoSpecs)
+	if err != nil {
+		return Format{}, err
+	}
+
+	format.AudioSpecs, err = parseAudioSpec(pieces.audio, format.AudioSpecs)
+	if err != nil {
+		return Format{}, err
+	}
+
+	format.FormatOptions, err = parseFormatOptions(pieces.formatOptions, format.FormatOptions)
+	if err != nil {
+		return Format{}, err
+	}
+
+	return format, nil
 }
