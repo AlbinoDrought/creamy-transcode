@@ -1,7 +1,7 @@
 package format
 
 type VideoSpecs struct {
-	Enabled          bool
+	Disabled         bool
 	ResolutionHeight int
 	ResolutionWidth  int
 	BitrateKbps      int
@@ -10,7 +10,7 @@ type VideoSpecs struct {
 }
 
 type AudioSpecs struct {
-	Enabled      bool
+	Disabled     bool
 	Codec        string
 	BitrateKbps  int
 	SampleRateHz int

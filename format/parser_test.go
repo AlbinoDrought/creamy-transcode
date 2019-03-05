@@ -84,3 +84,104 @@ func TestSplitPieces(t *testing.T) {
 		})
 	}
 }
+
+func TestParseVideoSpec(t *testing.T) {
+	cases := []struct {
+		input     string
+		expected  VideoSpecs
+		errorText string
+	}{
+		{
+			input: "x",
+			expected: VideoSpecs{
+				Disabled: true,
+			},
+		},
+		{
+			input:     "240p_x",
+			expected:  VideoSpecs{},
+			errorText: "unhandled video option: x",
+		},
+		{
+			input: "240p_400k",
+			expected: VideoSpecs{
+				ResolutionWidth:  0,
+				ResolutionHeight: 240,
+				BitrateKbps:      400,
+			},
+		},
+		{
+			input: "720p_23.98fps",
+			expected: VideoSpecs{
+				ResolutionWidth:  1280,
+				ResolutionHeight: 720,
+				BitrateKbps:      2000,
+				FPS:              "23.98",
+			},
+		},
+		{
+			input: "600x0_800k",
+			expected: VideoSpecs{
+				ResolutionWidth:  600,
+				ResolutionHeight: 0,
+				BitrateKbps:      800,
+			},
+		},
+		{
+			input: "hevc_1080p_1500k",
+			expected: VideoSpecs{
+				Codec:            "hevc",
+				ResolutionWidth:  1920,
+				ResolutionHeight: 1080,
+				BitrateKbps:      1500,
+			},
+		},
+	}
+
+	for _, c := range cases {
+		t.Run("input: "+c.input, func(t *testing.T) {
+			actual, err := parseVideoSpec(c.input)
+
+			assert.EqualValues(t, c.expected, actual)
+			if c.errorText == "" {
+				assert.Nil(t, err)
+			} else {
+				assert.EqualError(t, err, c.errorText)
+			}
+		})
+	}
+}
+
+func TestParseFormatOptions(t *testing.T) {
+	cases := []struct {
+		input     string
+		expected  FormatOptions
+		errorText string
+	}{
+		{
+			input:     "3pass",
+			expected:  FormatOptions{},
+			errorText: "unsupported option: 3pass",
+		},
+		{
+			input: "2pass",
+			expected: FormatOptions{
+				TwoPass: true,
+			},
+			errorText: "",
+		},
+	}
+
+	for _, c := range cases {
+		t.Run("input: "+c.input, func(t *testing.T) {
+			actual, err := parseFormatOptions(c.input)
+
+			assert.EqualValues(t, c.expected, actual)
+			if c.errorText == "" {
+				assert.Nil(t, err)
+			} else {
+				assert.EqualError(t, err, c.errorText)
+			}
+		})
+	}
+}

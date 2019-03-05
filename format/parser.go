@@ -2,6 +2,7 @@ package format
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -11,6 +12,9 @@ type unparsedPieces struct {
 	audio         string
 	formatOptions string
 }
+
+const splitFieldCharacter = ":"
+const splitOptionCharacter = "_"
 
 const splitFieldContainer = 0
 const splitFieldVideo = 1
@@ -24,7 +28,7 @@ func splitPieces(input string) (unparsedPieces, error) {
 		return unparsedPieces{}, errors.New("empty input string")
 	}
 
-	rawPieces := strings.Split(input, ":")
+	rawPieces := strings.Split(input, splitFieldCharacter)
 	length := len(rawPieces)
 	pieces := unparsedPieces{}
 
@@ -71,6 +75,56 @@ func splitPieces(input string) (unparsedPieces, error) {
 	return pieces, nil
 }
 
+func getOptions(input string) []string {
+	return strings.Split(input, splitOptionCharacter)
+}
+
+func parseVideoSpec(input string) (VideoSpecs, error) {
+	videoSpecs := VideoSpecs{}
+
+	if input == "x" {
+		videoSpecs.Disabled = true
+		return videoSpecs, nil
+	}
+
+	for _, option := range getOptions(input) {
+		handled := false
+		var err error
+		for _, optionHandler := range videoSpecOptions {
+			handled, err = optionHandler(option, &videoSpecs)
+
+			if err != nil {
+				return VideoSpecs{}, err
+			}
+
+			if handled {
+				break
+			}
+		}
+
+		if !handled {
+			return VideoSpecs{}, fmt.Errorf("unhandled video option: %+v", option)
+		}
+	}
+
+	return videoSpecs, nil
+}
+
+func parseFormatOptions(input string) (FormatOptions, error) {
+	formatOptions := FormatOptions{}
+
+	for _, option := range getOptions(input) {
+		if option == formatOptionTwoPass {
+			formatOptions.TwoPass = true
+			continue
+		}
+
+		return FormatOptions{}, fmt.Errorf("unsupported option: %+v", option)
+	}
+
+	return formatOptions, nil
+}
+
 func Parse(input string) (FormatOptions, error) {
 	/*
 		pieces, err := splitPieces(input)
@@ -78,6 +132,5 @@ func Parse(input string) (FormatOptions, error) {
 			return FormatOptions{}, err
 		}
 	*/
-
 	return FormatOptions{}, errors.New("foo")
 }
