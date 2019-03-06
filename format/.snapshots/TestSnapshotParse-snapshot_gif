@@ -1,0 +1,22 @@
+(format.Format) {
+  Container: (string) (len=3) "gif",
+  VideoSpecs: (format.VideoSpecs) {
+    Disabled: (bool) false,
+    ResolutionHeight: (int) 0,
+    ResolutionWidth: (int) 0,
+    BitrateKbps: (int) 0,
+    Codec: (string) (len=3) "gif",
+    FPS: (string) ""
+  },
+  AudioSpecs: (format.AudioSpecs) {
+    Disabled: (bool) true,
+    Codec: (string) "",
+    BitrateKbps: (int) 0,
+    SampleRateHz: (int) 0,
+    AudioChannel: (string) ""
+  },
+  FormatOptions: (format.FormatOptions) {
+    TwoPass: (bool) false
+  }
+}
+(interface {}) <nil>

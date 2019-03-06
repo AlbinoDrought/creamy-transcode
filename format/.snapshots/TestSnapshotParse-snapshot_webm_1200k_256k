@@ -1,0 +1,22 @@
+(format.Format) {
+  Container: (string) (len=4) "webm",
+  VideoSpecs: (format.VideoSpecs) {
+    Disabled: (bool) false,
+    ResolutionHeight: (int) 0,
+    ResolutionWidth: (int) 0,
+    BitrateKbps: (int) 1200,
+    Codec: (string) (len=3) "vp8",
+    FPS: (string) ""
+  },
+  AudioSpecs: (format.AudioSpecs) {
+    Disabled: (bool) false,
+    Codec: (string) (len=6) "vorbis",
+    BitrateKbps: (int) 256,
+    SampleRateHz: (int) 44100,
+    AudioChannel: (string) (len=6) "stereo"
+  },
+  FormatOptions: (format.FormatOptions) {
+    TwoPass: (bool) false
+  }
+}
+(interface {}) <nil>

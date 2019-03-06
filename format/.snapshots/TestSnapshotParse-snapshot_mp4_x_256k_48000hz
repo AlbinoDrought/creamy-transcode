@@ -1,0 +1,22 @@
+(format.Format) {
+  Container: (string) (len=3) "mp4",
+  VideoSpecs: (format.VideoSpecs) {
+    Disabled: (bool) true,
+    ResolutionHeight: (int) 0,
+    ResolutionWidth: (int) 0,
+    BitrateKbps: (int) 1000,
+    Codec: (string) (len=4) "h264",
+    FPS: (string) ""
+  },
+  AudioSpecs: (format.AudioSpecs) {
+    Disabled: (bool) false,
+    Codec: (string) (len=3) "aac",
+    BitrateKbps: (int) 256,
+    SampleRateHz: (int) 48000,
+    AudioChannel: (string) (len=6) "stereo"
+  },
+  FormatOptions: (format.FormatOptions) {
+    TwoPass: (bool) false
+  }
+}
+(interface {}) <nil>

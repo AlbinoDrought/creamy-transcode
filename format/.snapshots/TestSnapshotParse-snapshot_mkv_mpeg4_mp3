@@ -1,0 +1,22 @@
+(format.Format) {
+  Container: (string) (len=3) "mkv",
+  VideoSpecs: (format.VideoSpecs) {
+    Disabled: (bool) false,
+    ResolutionHeight: (int) 0,
+    ResolutionWidth: (int) 0,
+    BitrateKbps: (int) 1000,
+    Codec: (string) (len=5) "mpeg4",
+    FPS: (string) ""
+  },
+  AudioSpecs: (format.AudioSpecs) {
+    Disabled: (bool) false,
+    Codec: (string) (len=3) "mp3",
+    BitrateKbps: (int) 128,
+    SampleRateHz: (int) 44100,
+    AudioChannel: (string) (len=6) "stereo"
+  },
+  FormatOptions: (format.FormatOptions) {
+    TwoPass: (bool) false
+  }
+}
+(interface {}) <nil>

@@ -1,0 +1,22 @@
+(format.Format) {
+  Container: (string) (len=3) "mp3",
+  VideoSpecs: (format.VideoSpecs) {
+    Disabled: (bool) true,
+    ResolutionHeight: (int) 0,
+    ResolutionWidth: (int) 0,
+    BitrateKbps: (int) 0,
+    Codec: (string) "",
+    FPS: (string) ""
+  },
+  AudioSpecs: (format.AudioSpecs) {
+    Disabled: (bool) false,
+    Codec: (string) (len=3) "mp3",
+    BitrateKbps: (int) 64,
+    SampleRateHz: (int) 22050,
+    AudioChannel: (string) (len=4) "mono"
+  },
+  FormatOptions: (format.FormatOptions) {
+    TwoPass: (bool) false
+  }
+}
+(interface {}) <nil>

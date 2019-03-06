@@ -1,7 +1,10 @@
 package format
 
 import (
+	"regexp"
 	"testing"
+
+	"github.com/bradleyjkemp/cupaloy"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -247,6 +250,43 @@ func TestParseFormatOptions(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, c.errorText)
 			}
+		})
+	}
+}
+
+func TestSnapshotParse(t *testing.T) {
+	cases := []string{
+		"jpg:300x",
+		"webm:400x200_600k",
+		"mp4:hevc_720p",
+		"ios:300x0_400k",
+		"gif",
+		"storyboard",
+		"mp3:64k_22050hz_mono",
+		"mp4:x:256k_48000hz",
+		"mp4:x",
+		"mp4:hevc_1080p_2000k",
+		"avi:mpeg4_640x320",
+		"mp4:240p_15fps",
+		"mp4:720p:x",
+		"mp4:hevc_1080p:x",
+		"mkv:mpeg4:mp3",
+		"mpegts::mp3",
+		"webm:1200k:256k",
+		"mp4:1080p:512k",
+		"mp4:240p:64k_22050hz",
+		"mp4:720p:48000hz",
+		"mp4:240p:64k_mono",
+		"mp4:720p::2pass",
+	}
+
+	sanitize := regexp.MustCompile("[^A-Za-z0-9_]")
+
+	for _, c := range cases {
+		niceName := sanitize.ReplaceAllString(c, "_")
+		t.Run("snapshot_"+niceName, func(t *testing.T) {
+			actual, err := Parse(c)
+			cupaloy.SnapshotT(t, actual, err)
 		})
 	}
 }

@@ -1,0 +1,22 @@
+(format.Format) {
+  Container: (string) (len=3) "ios",
+  VideoSpecs: (format.VideoSpecs) {
+    Disabled: (bool) false,
+    ResolutionHeight: (int) 0,
+    ResolutionWidth: (int) 300,
+    BitrateKbps: (int) 400,
+    Codec: (string) "",
+    FPS: (string) ""
+  },
+  AudioSpecs: (format.AudioSpecs) {
+    Disabled: (bool) false,
+    Codec: (string) "",
+    BitrateKbps: (int) 0,
+    SampleRateHz: (int) 0,
+    AudioChannel: (string) ""
+  },
+  FormatOptions: (format.FormatOptions) {
+    TwoPass: (bool) false
+  }
+}
+(interface {}) <nil>
