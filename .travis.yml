@@ -4,8 +4,8 @@ go:
   - 1.11.x
 
 install:
-  - go get
-  - cd format && go get && cd ..
+  - go get -t
+  - cd format && go get -t && cd ..
 
 script:
   - go vet ./...
