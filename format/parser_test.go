@@ -120,6 +120,13 @@ func TestParseVideoSpec(t *testing.T) {
 			},
 		},
 		{
+			input: "200x",
+			expected: VideoSpecs{
+				ResolutionWidth:  200,
+				ResolutionHeight: 0,
+			},
+		},
+		{
 			input: "600x0_800k",
 			expected: VideoSpecs{
 				ResolutionWidth:  600,

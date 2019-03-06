@@ -67,9 +67,12 @@ func parseVideoResolution(input string, option *VideoSpecs) (bool, error) {
 		return true, err
 	}
 
-	height, err := strconv.Atoi(matches[2])
-	if err != nil {
-		return true, err
+	height := 0
+	if matches[2] != "" {
+		height, err = strconv.Atoi(matches[2])
+		if err != nil {
+			return true, err
+		}
 	}
 
 	option.ResolutionWidth = width
