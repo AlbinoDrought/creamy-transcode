@@ -92,6 +92,10 @@ func TestParseVideoSpec(t *testing.T) {
 		errorText string
 	}{
 		{
+			input:    "",
+			expected: VideoSpecs{},
+		},
+		{
 			input: "x",
 			expected: VideoSpecs{
 				Disabled: true,
@@ -166,6 +170,10 @@ func TestParseAudioSpec(t *testing.T) {
 		errorText string
 	}{
 		{
+			input:    "",
+			expected: AudioSpecs{},
+		},
+		{
 			input: "x",
 			expected: AudioSpecs{
 				Disabled: true,
@@ -211,9 +219,14 @@ func TestParseFormatOptions(t *testing.T) {
 		errorText string
 	}{
 		{
+			input:     "",
+			expected:  FormatOptions{},
+			errorText: "",
+		},
+		{
 			input:     "3pass",
 			expected:  FormatOptions{},
-			errorText: "unsupported option: 3pass",
+			errorText: "unsupported format option: 3pass",
 		},
 		{
 			input: "2pass",

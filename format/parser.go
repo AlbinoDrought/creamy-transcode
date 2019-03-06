@@ -80,6 +80,10 @@ func getOptions(input string) []string {
 }
 
 func parseVideoSpec(input string, videoSpecs VideoSpecs) (VideoSpecs, error) {
+	if input == "" {
+		return videoSpecs, nil
+	}
+
 	if input == "x" {
 		videoSpecs.Disabled = true
 		return videoSpecs, nil
@@ -109,6 +113,10 @@ func parseVideoSpec(input string, videoSpecs VideoSpecs) (VideoSpecs, error) {
 }
 
 func parseAudioSpec(input string, audioSpecs AudioSpecs) (AudioSpecs, error) {
+	if input == "" {
+		return audioSpecs, nil
+	}
+
 	if input == "x" {
 		audioSpecs.Disabled = true
 		return audioSpecs, nil
@@ -138,13 +146,17 @@ func parseAudioSpec(input string, audioSpecs AudioSpecs) (AudioSpecs, error) {
 }
 
 func parseFormatOptions(input string, formatOptions FormatOptions) (FormatOptions, error) {
+	if input == "" {
+		return formatOptions, nil
+	}
+
 	for _, option := range getOptions(input) {
 		if option == formatOptionTwoPass {
 			formatOptions.TwoPass = true
 			continue
 		}
 
-		return FormatOptions{}, fmt.Errorf("unsupported option: %+v", option)
+		return FormatOptions{}, fmt.Errorf("unsupported format option: %+v", option)
 	}
 
 	return formatOptions, nil
