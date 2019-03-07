@@ -162,6 +162,7 @@ func parseFormatOptions(input string, formatOptions FormatOptions) (FormatOption
 	return formatOptions, nil
 }
 
+// Parse a format string like "mp4:1080p" into a well-defined Format
 func Parse(input string) (Format, error) {
 	pieces, err := splitPieces(input)
 	if err != nil {
