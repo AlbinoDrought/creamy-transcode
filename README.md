@@ -24,7 +24,8 @@ go test ./...
 
 - [x] parse a format like `mp4:1080p:mp3:2pass` into something machine-readable
 - [ ] when given this basic parsed format, some secondary options, and a source video URL, convert the source video into the target format
-- [ ] when given a source video URL, download it and extract metadata like width, length, etc
+- [ ] when given a source video url, download it
+- [x] when given a source video path, extract metadata like width, length, etc: [mediainfo](mediainfo)
 - [x] parse a config file into something machine-readable
 - [ ] shove source video metadata into config file vars
 - [ ] working `if` statements in config file

@@ -1,0 +1,18 @@
+(mediainfo.MediaInfo) {
+  MimeType: (string) (len=11) "audio/x-wav",
+  Size: (int64) 211500,
+  Width: (int) 0,
+  Height: (int) 0,
+  AspectRatio: (string) "",
+  FPS: (string) "",
+  VideoBitrate: (string) "",
+  IsHD: (bool) false,
+  IsAudioOnly: (bool) true,
+  Duration: (string) (len=8) "4.794921",
+  VideoCodec: (string) "",
+  AudioCodec: (string) (len=9) "pcm_s16le",
+  Channels: (int) 1,
+  AudioBitrate: (string) (len=6) "352800",
+  SampleRate: (string) (len=5) "22050"
+}
+(interface {}) <nil>
