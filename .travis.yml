@@ -6,6 +6,7 @@ go:
 before_install:
   # install ffmpeg
   - sudo add-apt-repository ppa:mc3man/trusty-media -y && sudo apt-get -qq update && sudo apt-get install -y ffmpeg
+  - ffmpeg -version
 
 install:
   - go get -t ./...
