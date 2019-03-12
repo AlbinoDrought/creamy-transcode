@@ -2,7 +2,6 @@ package ffprobe
 
 import (
 	"encoding/json"
-	"io"
 	"os/exec"
 
 	"github.com/pkg/errors"
@@ -97,6 +96,7 @@ func decode(command *exec.Cmd) (Result, error) {
 	return result, nil
 }
 
+/*
 // ProbeStream uses ffprobe to fetch media info from a stream
 func ProbeStream(stream io.Reader) (Result, error) {
 	cmd := exec.Command("ffprobe", "-", "-hide_banner", "-v", "quiet", "-print_format", "json", "-show_format", "-show_streams")
@@ -104,6 +104,7 @@ func ProbeStream(stream io.Reader) (Result, error) {
 
 	return decode(cmd)
 }
+*/
 
 // ProbeFile uses ffprobe to fetch media info from an ffprobe-compatible path
 func ProbeFile(path string) (Result, error) {

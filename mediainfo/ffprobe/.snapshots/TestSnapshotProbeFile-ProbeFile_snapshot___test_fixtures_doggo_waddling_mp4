@@ -106,15 +106,15 @@
     }
   },
   Format: (ffprobe.Format) {
-    Filename: (string) (len=5) "pipe:",
+    Filename: (string) (len=34) "./test_fixtures/doggo_waddling.mp4",
     NbStreams: (int) 2,
     NbPrograms: (int) 0,
     FormatName: (string) (len=23) "mov,mp4,m4a,3gp,3g2,mj2",
     FormatLongName: (string) (len=15) "QuickTime / MOV",
     StartTime: (string) (len=8) "0.000000",
     Duration: (string) (len=8) "4.435000",
-    Size: (string) "",
-    BitRate: (string) "",
+    Size: (string) (len=6) "204141",
+    BitRate: (string) (len=6) "368236",
     ProbeScore: (int) 100
   }
 }

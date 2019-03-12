@@ -1,17 +1,15 @@
 package ffprobe
 
 import (
-	"os"
 	"regexp"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 
 	"github.com/bradleyjkemp/cupaloy"
 )
 
 var inputFiles = []string{
-	"doggo_waddling.mp4",
+	"./test_fixtures/doggo_waddling.mp4",
+	"./test_fixtures/test_chairsqueak.wav",
 }
 var sanitize = regexp.MustCompile("[^A-Za-z0-9_]")
 
@@ -25,6 +23,7 @@ func TestSnapshotProbeFile(t *testing.T) {
 	}
 }
 
+/*
 func TestSnapshotProbeStream(t *testing.T) {
 	for _, file := range inputFiles {
 		niceName := sanitize.ReplaceAllString(file, "_")
@@ -57,3 +56,4 @@ func TestProbeStreamProbeFileSameStreams(t *testing.T) {
 		})
 	}
 }
+*/
