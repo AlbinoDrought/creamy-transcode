@@ -25,7 +25,7 @@ func parseVar(line string, parseContext *parseContext) (bool, error) {
 	value := matches[2]
 	value = parseContext.expand(value) // something something billion laughs attack
 
-	parseContext.variables[name] = value
+	parseContext.setVariable(name, value)
 
 	return true, nil
 }

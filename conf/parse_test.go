@@ -47,14 +47,19 @@ func TestExpand(t *testing.T) {
 				"foo":    "this is not really expected but I'm not sure how it should be handled ",
 				"foobar": "it's a miracle",
 			},
-			expected: "this is not really expected but I'm not sure how it should be handled bar",
+			expected: "it's a miracle",
 		},
 	}
 
 	for _, c := range cases {
 		t.Run(c.input, func(t *testing.T) {
 			parseContext := parseContext{
-				variables: c.variables,
+				variables:           map[string]string{},
+				sortedVariableNames: []string{},
+			}
+
+			for name, value := range c.variables {
+				parseContext.setVariable(name, value)
 			}
 
 			actual := parseContext.expand(c.input)
@@ -145,9 +150,9 @@ func TestParseString(t *testing.T) {
 			input: `
 			var foo = bar
 			var bar = $foo$foo$foo$foo
-			var laughs = $bar$bar$bar$bar
+			var foobar = $bar$bar$bar$bar
 
-			set webhook = $laughs
+			set webhook = $foobar
 			`,
 			expected: ParsedConf{
 				WebhookURL: "barbarbarbarbarbarbarbarbarbarbarbarbarbarbarbar",

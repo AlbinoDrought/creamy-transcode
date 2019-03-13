@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -15,12 +16,24 @@ type ParsedConf struct {
 }
 
 type parseContext struct {
-	conf      ParsedConf
-	variables map[string]string
+	conf                ParsedConf
+	variables           map[string]string
+	sortedVariableNames []string
+}
+
+func (parseContext *parseContext) setVariable(name string, value string) {
+	_, alreadyExists := parseContext.variables[name]
+	parseContext.variables[name] = value
+
+	if !alreadyExists {
+		parseContext.sortedVariableNames = append(parseContext.sortedVariableNames, name)
+		sort.Sort(variablesByLength(parseContext.sortedVariableNames))
+	}
 }
 
 func (parseContext *parseContext) expand(input string) string {
-	for name, value := range parseContext.variables {
+	for _, name := range parseContext.sortedVariableNames {
+		value := parseContext.variables[name]
 		input = strings.Replace(input, "$"+name, value, -1)
 	}
 
@@ -46,7 +59,8 @@ func Parse(reader io.Reader) (ParsedConf, error) {
 		conf: ParsedConf{
 			Outputs: make(map[string]string),
 		},
-		variables: make(map[string]string),
+		variables:           make(map[string]string),
+		sortedVariableNames: []string{},
 	}
 
 	scanner := bufio.NewScanner(reader)
