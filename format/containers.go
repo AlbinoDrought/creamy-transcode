@@ -52,7 +52,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "aac",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"webm": Format{
@@ -65,7 +65,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "vorbis",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"avi": Format{
@@ -78,7 +78,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "mp3",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"asf": Format{
@@ -91,7 +91,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "wmav2",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"mpegts": Format{
@@ -104,7 +104,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "aac",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"mov": Format{
@@ -117,7 +117,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "aac",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"flv": Format{
@@ -130,7 +130,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "mp3",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"mkv": Format{
@@ -143,7 +143,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "aac",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"3gp": Format{
@@ -156,7 +156,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "aac",
 			SampleRateHz: 44100,
 			BitrateKbps:  32,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"ogv": Format{
@@ -169,7 +169,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "vorbis",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"ogg": Format{
@@ -181,7 +181,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "vorbis",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"mp3": Format{
@@ -193,7 +193,7 @@ var defaultOptionsByContainer = map[string]Format{
 			Codec:        "mp3",
 			SampleRateHz: 44100,
 			BitrateKbps:  128,
-			AudioChannel: audioChannelStereo,
+			AudioChannel: AudioChannelStereo,
 		},
 	},
 	"jpg": Format{

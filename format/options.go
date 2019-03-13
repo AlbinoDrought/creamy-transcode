@@ -13,7 +13,8 @@ const audioBitrateMaximum = 512000
 
 var bitrateRegex = regexp.MustCompile("^(\\d{1,6})k$")
 
-const fpsAutomatic = "0"
+// FPSAutomatic signifies that output FPS should be unaltered or automatically decided
+const FPSAutomatic = "0"
 const fpsSuffix = "fps"
 
 var resolutionRegex = regexp.MustCompile("^(\\d{1,4})x(\\d{1,4})?$")
@@ -21,7 +22,7 @@ var resolutionRegex = regexp.MustCompile("^(\\d{1,4})x(\\d{1,4})?$")
 var definitionRegex = regexp.MustCompile("^(\\d{3,4})p$")
 
 var fpsValid = []string{
-	fpsAutomatic,
+	FPSAutomatic,
 	"15",
 	"23.98",
 	"25",
@@ -44,7 +45,10 @@ var sampleRateValid = []string{
 }
 var sampleRateRegex = regexp.MustCompile("^(" + strings.Join(sampleRateValid, "|") + ")hz$")
 
-const audioChannelMono = "mono"
-const audioChannelStereo = "stereo"
+// AudioChannelMono signifies an audio stream should have one channel
+const AudioChannelMono = "mono"
 
-var audioChannelRegex = regexp.MustCompile("^(" + audioChannelMono + "|" + audioChannelStereo + ")$")
+// AudioChannelStereo signifies an audio stream should have two channels
+const AudioChannelStereo = "stereo"
+
+var audioChannelRegex = regexp.MustCompile("^(" + AudioChannelMono + "|" + AudioChannelStereo + ")$")

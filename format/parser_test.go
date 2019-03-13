@@ -187,7 +187,7 @@ func TestParseAudioSpec(t *testing.T) {
 			expected: AudioSpecs{
 				BitrateKbps:  64,
 				SampleRateHz: 22050,
-				AudioChannel: audioChannelMono,
+				AudioChannel: AudioChannelMono,
 			},
 		},
 		{
@@ -196,7 +196,7 @@ func TestParseAudioSpec(t *testing.T) {
 				Codec:        "vorbis",
 				SampleRateHz: 44100,
 				BitrateKbps:  128,
-				AudioChannel: audioChannelStereo,
+				AudioChannel: AudioChannelStereo,
 			},
 		},
 	}
