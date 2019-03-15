@@ -1,0 +1,16 @@
+var source_mime_type = video/mp4
+var source_size = 204141
+var source_width = 640
+var source_height = 360
+var source_aspect_ratio = 16:9
+var source_fps = 3823232/127989
+var source_video_bitrate = 276883
+var source_is_hd = false
+var source_is_audio_only = false
+var source_duration = 4.285011
+var source_video_codec = h264
+var source_audio_codec = aac
+var source_channels = 2
+var source_audio_bitrate = 95999
+var source_sample_rate = 44100
+

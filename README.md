@@ -27,7 +27,7 @@ go test ./...
 - [ ] when given a source video url, download it
 - [x] when given a source video path, extract metadata like width, length, etc: [mediainfo](mediainfo)
 - [x] parse a config file into something machine-readable
-- [ ] shove source video metadata into config file vars
+- [x] shove source video metadata into config file vars
 - [ ] working `if` statements in config file
 - [ ] somehow handle "secondary url options" like `, metadata=true`, `, number=6`, etc
 - [ ] post with-metadata and without-metadata webhooks on state changes
