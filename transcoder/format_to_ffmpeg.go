@@ -7,10 +7,15 @@ import (
 )
 
 // FormatToFFMPEG converts a Format to one or more ffmpeg commands
-func FormatToFFMPEG(format cfmt.Format) [][]string {
+func FormatToFFMPEG(format *cfmt.Format) [][]string {
+	specialHandler, ok := specialContainerHandlers[format.Container]
+	if ok {
+		return specialHandler(format)
+	}
+
 	result := []string{}
 
-	result = append(result, "-y", "-f", format.Container)
+	result = append(result, "-y", "-hide_banner", "-f", getFormat(format.Container))
 
 	if format.VideoSpecs.Disabled {
 		result = append(result, "-vn")
@@ -33,7 +38,7 @@ func FormatToFFMPEG(format cfmt.Format) [][]string {
 		// video bitrate
 		if format.VideoSpecs.BitrateKbps != 0 {
 			bitrate := fmt.Sprintf("%dk", format.VideoSpecs.BitrateKbps)
-			result = append(result, "-b:v", bitrate, "-bufsize", bitrate)
+			result = append(result, "-b:v", bitrate, "-bufsize", bitrate, "-maxrate", bitrate)
 		}
 
 		// video codec

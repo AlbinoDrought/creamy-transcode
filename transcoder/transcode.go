@@ -9,7 +9,7 @@ import (
 
 // TranscodeFormat takes the file at `input` and transcodes it using the given Format,
 // saving it at `output`
-func TranscodeFormat(input string, output string, format cfmt.Format) error {
+func TranscodeFormat(input string, output string, format *cfmt.Format) error {
 	commands := FormatToFFMPEG(format)
 	return TranscodeRaw(input, output, commands)
 }
