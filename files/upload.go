@@ -19,5 +19,5 @@ func Upload(source string, dest string) error {
 		}
 	}
 
-	return fmt.Errorf("unhandled destination type: %v", source)
+	return fmt.Errorf("unhandled destination type: %v", dest)
 }
