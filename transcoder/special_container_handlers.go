@@ -28,7 +28,7 @@ func dumpSingleThumbnail(base []string, format *cfmt.Format) []string {
 			width = -1
 		}
 
-		vf += fmt.Sprintf("scale=%d:%d", width, height)
+		vf += fmt.Sprintf(",scale=%d:%d", width, height)
 	}
 
 	base = append(base, "-vf", vf)
