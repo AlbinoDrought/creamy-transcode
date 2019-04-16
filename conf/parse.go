@@ -9,10 +9,15 @@ import (
 	"strings"
 )
 
+type ParsedOutput struct {
+	URL     string
+	Options map[string]string
+}
+
 type ParsedConf struct {
 	SourceURL  string
 	WebhookURL string
-	Outputs    map[string]string
+	Outputs    map[string]ParsedOutput
 }
 
 type parseContext struct {
@@ -57,7 +62,7 @@ func trimWhitespace(line string) string {
 func Parse(reader io.Reader) (ParsedConf, error) {
 	parseContext := &parseContext{
 		conf: ParsedConf{
-			Outputs: make(map[string]string),
+			Outputs: make(map[string]ParsedOutput),
 		},
 		variables:           make(map[string]string),
 		sortedVariableNames: []string{},
