@@ -128,7 +128,7 @@ func TestParseString(t *testing.T) {
 			`,
 			expected: ParsedConf{
 				SourceURL: "http://bar.com",
-				Outputs:   map[string]string{},
+				Outputs:   map[string]ParsedOutput{},
 			},
 		},
 		{
@@ -142,7 +142,7 @@ func TestParseString(t *testing.T) {
 			`,
 			expected: ParsedConf{
 				SourceURL: "http://bar.com",
-				Outputs:   map[string]string{},
+				Outputs:   map[string]ParsedOutput{},
 			},
 		},
 		{
@@ -156,7 +156,7 @@ func TestParseString(t *testing.T) {
 			`,
 			expected: ParsedConf{
 				WebhookURL: "barbarbarbarbarbarbarbarbarbarbarbarbarbarbarbar",
-				Outputs:    map[string]string{},
+				Outputs:    map[string]ParsedOutput{},
 			},
 		},
 		{
@@ -177,7 +177,7 @@ func TestParseString(t *testing.T) {
 			`,
 			expected: ParsedConf{
 				SourceURL: "notbar",
-				Outputs:   map[string]string{},
+				Outputs:   map[string]ParsedOutput{},
 			},
 		},
 		{
@@ -197,8 +197,13 @@ func TestParseString(t *testing.T) {
 			-> jpg:300x = $destination/thumbnail_small_#num#.jpg, number=$thumbnails
 			`,
 			expected: ParsedConf{
-				Outputs: map[string]string{
-					"jpg:300x": "s3://foo:bar@bucket/thumbnail_small_#num#.jpg, number=12",
+				Outputs: map[string]ParsedOutput{
+					"jpg:300x": ParsedOutput{
+						URL: "s3://foo:bar@bucket/thumbnail_small_#num#.jpg",
+						Options: map[string]string{
+							"number": "12",
+						},
+					},
 				},
 			},
 		},
@@ -228,12 +233,35 @@ func TestParseString(t *testing.T) {
 			expected: ParsedConf{
 				SourceURL:  "https://creamy-videos.internal.albinodrought.com/static/videos/5678/video",
 				WebhookURL: "https://creamy-videos.internal.albinodrought.com/api/video/5678/transcoded, metadata=true",
-				Outputs: map[string]string{
-					"webm":     "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/video.webm",
-					"mp4":      "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/video.mp4",
-					"mp4:720p": "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/video_720p.mp4, if=$source_width >= 1280",
-					"jpg:300x": "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/thumbnail_small_#num#.jpg, number=6",
-					"jpg:160x": "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/thumbnail_sprite.jpg, every=5, sprite=yes, vtt=yes",
+				Outputs: map[string]ParsedOutput{
+					"webm": ParsedOutput{
+						URL:     "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/video.webm",
+						Options: map[string]string{},
+					},
+					"mp4": ParsedOutput{
+						URL:     "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/video.mp4",
+						Options: map[string]string{},
+					},
+					"mp4:720p": ParsedOutput{
+						URL: "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/video_720p.mp4",
+						Options: map[string]string{
+							"if": "$source_width >= 1280",
+						},
+					},
+					"jpg:300x": ParsedOutput{
+						URL: "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/thumbnail_small_#num#.jpg",
+						Options: map[string]string{
+							"number": "6",
+						},
+					},
+					"jpg:160x": ParsedOutput{
+						URL: "s3://some-s3-key:some-s3-secret@some-s3-bucket/videos/5678/transcode/thumbnail_sprite.jpg",
+						Options: map[string]string{
+							"every":  "5",
+							"sprite": "yes",
+							"vtt":    "yes",
+						},
+					},
 				},
 			},
 		},
