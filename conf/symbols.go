@@ -3,6 +3,7 @@ package conf
 import (
 	"errors"
 	"regexp"
+	"strings"
 )
 
 type symbolParser func(line string, parseContext *parseContext) (bool, error)
@@ -72,7 +73,53 @@ func parseOutput(line string, parseContext *parseContext) (bool, error) {
 		return true, errors.New("output already exists: " + name)
 	}
 
-	parseContext.conf.Outputs[name] = value
+	parsedOutput := ParsedOutput{
+		URL:     value,
+		Options: map[string]string{},
+	}
+
+	// some sources can look like this:
+	// -> mp4 = http://foo.bar, keep=video_bitrate, if=$source_width >= 1280
+	// we want to end up with something like this:
+	/*
+		ParsedOutput{
+			URL: "http://foo.bar",
+			Options: map[string]string{
+				"keep": "video_bitrate",
+				"if": "$source_width >= 1280",
+			}
+		}
+	*/
+	// no validation on proper options, nothing - just parse them for later use
+
+	//
+	splitByCommaValue := strings.Split(value, ", ")
+	if len(splitByCommaValue) > 1 {
+		parsedOutput.URL = splitByCommaValue[0]
+		for i := 1; i < len(splitByCommaValue); i++ {
+			rawOptionStatement := splitByCommaValue[i]
+
+			splitByEqualsStatement := strings.Split(rawOptionStatement, "=")
+
+			var optionName string
+			var optionValue string
+
+			optionName = splitByEqualsStatement[0]
+			if len(splitByEqualsStatement) > 1 {
+				optionValue = strings.Join(splitByEqualsStatement[1:], "=")
+			} else {
+				optionValue = ""
+			}
+
+			if _, alreadyExists := parsedOutput.Options[optionName]; alreadyExists {
+				return true, errors.New("output option already exists: " + name)
+			}
+
+			parsedOutput.Options[optionName] = optionValue
+		}
+	}
+
+	parseContext.conf.Outputs[name] = parsedOutput
 
 	return true, nil
 }
