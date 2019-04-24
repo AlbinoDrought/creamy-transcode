@@ -168,7 +168,7 @@ func (transcoder ThumbnailTranscoder) Transcode(request *TranscodeRequest) Trans
 			}
 		}
 
-		videoFilters = append(videoFilters, fmt.Sprintf("fps=%d", every))
+		videoFilters = append(videoFilters, fmt.Sprintf("fps=1/%d", every))
 
 		commands = [][]string{
 			append(
