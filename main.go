@@ -1,10 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
+	"strings"
+
+	"github.com/AlbinoDrought/creamy-transcode/transcoder/transcoderoptions"
 
 	"github.com/AlbinoDrought/creamy-transcode/conf"
 	"github.com/AlbinoDrought/creamy-transcode/files"
@@ -85,8 +89,16 @@ func main() {
 
 	transcodeResultChannel := make(chan transcodeResult, len(parsedConfiguration.Outputs))
 
+	apostle := transcoder.ApostleTranscoder{
+		ContainerTranscoders: map[string]transcoder.Transcoder{
+			"jpg": transcoder.ThumbnailTranscoder{},
+			"png": transcoder.ThumbnailTranscoder{},
+		},
+		DefaultTranscoder: transcoder.VideoTranscoder{},
+	}
+
 	for formatName, outputURL := range parsedConfiguration.Outputs {
-		go func(formatName string, outputURL string) {
+		go func(formatName string, outputURL conf.ParsedOutput) {
 			result := transcodeResult{
 				formatName: formatName,
 				outputURLs: []string{},
@@ -104,24 +116,51 @@ func main() {
 				return
 			}
 
-			// shove output file somewhere in the existing tempdir
-			tempOutputPath := path.Join(tempDir, sanitize.Path(formatName))
-
-			err = transcoder.TranscodeFormat(tempDownloadPath, tempOutputPath, &parsedFormat)
+			thumbnailOptions, err := transcoderoptions.ParseThumbnailOptions(outputURL.Options)
 			if err != nil {
-				result.err = errors.Wrap(err, "transcode format error")
+				result.err = errors.Wrap(err, "thumbnail option parse error")
+				return
+			}
+
+			// shove output file somewhere in the existing tempdir
+			tempOutputPath, err := ioutil.TempDir(tempDir, sanitize.Path(formatName))
+			if err != nil {
+				result.err = errors.Wrap(err, "unable to create temp dir")
+				return
+			}
+
+			transcodeRequest := &transcoder.TranscodeRequest{
+				Format:             &parsedFormat,
+				SourceLocalPath:    tempDownloadPath,
+				SourceMediaInfo:    &examinedInfo,
+				TemporaryLocalPath: tempOutputPath,
+				ParsedOutput:       &outputURL,
+				ThumbnailOptions:   &thumbnailOptions,
+			}
+
+			transcodeResult := apostle.Transcode(transcodeRequest)
+			if transcodeResult.Error != nil {
+				result.err = transcodeResult.Error
 				return
 			}
 
 			// dump it to output url
-			err = files.Upload(tempOutputPath, outputURL)
-			if err != nil {
-				result.err = errors.Wrap(err, "upload error")
-				return
-			}
+			numlessOutputURL := strings.Replace(outputURL.URL, "#num#", "%.2d", 1)
+			for i, resultingFile := range transcodeResult.ResultingFiles {
+				resultingFileOutputURL := fmt.Sprintf(numlessOutputURL, i)
+				if strings.Contains(resultingFileOutputURL, "%!") {
+					// assume there was an sprintf issue...
+					// todo: somehow check before shoving into sprintf?
+					resultingFileOutputURL = numlessOutputURL
+				}
 
-			// alrighty, everything maybe worked
-			result.outputURLs = []string{outputURL}
+				err = files.Upload(resultingFile, resultingFileOutputURL)
+				if err != nil {
+					result.err = errors.Wrapf(err, "unable to upload result #%d from %v", i, resultingFile)
+					return
+				}
+				result.outputURLs = append(result.outputURLs, resultingFileOutputURL)
+			}
 		}(formatName, outputURL)
 	}
 

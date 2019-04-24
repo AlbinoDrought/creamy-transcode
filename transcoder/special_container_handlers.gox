@@ -2,18 +2,21 @@ package transcoder
 
 import (
 	"fmt"
+	"strconv"
 
-	cfmt "github.com/AlbinoDrought/creamy-transcode/format"
+	"github.com/AlbinoDrought/creamy-transcode/format"
+	"github.com/AlbinoDrought/creamy-transcode/superoutput"
 )
 
-type specialContainerHandler func(format *cfmt.Format) [][]string
+type specialContainerHandler func(output *superoutput.SuperOutput) [][]string
 
 var specialContainerHandlers = map[string]specialContainerHandler{
 	"jpg": dumpSingleJPG,
 	"png": dumpSinglePNG,
 }
 
-func dumpSingleThumbnail(base []string, format *cfmt.Format) []string {
+// actually it seems like ffmpeg should be able to handle all of this automagically....
+func dumpSingleThumbnail(base []string, output *superoutput.SuperOutput) []string {
 	base = append(base, "-y", "-hide_banner", "-frames:v", "1")
 
 	vf := "thumbnail"
@@ -36,7 +39,20 @@ func dumpSingleThumbnail(base []string, format *cfmt.Format) []string {
 	return base
 }
 
-func dumpSingleJPG(format *cfmt.Format) [][]string {
+func dumpThumbnails(base []string, output *superoutput.SuperOutput) [][]string {
+	commands := [][]string{}
+
+	if output.ThumbnailOptions.Every != 0 {
+		duration, _ := strconv.Atoi(output.SourceMediaInfo.Duration)
+		for i := 0; i < duration; i += otuput.ThumbnailOptions.Every {
+
+		}
+	}
+
+	return commands
+}
+
+func dumpSingleJPG(output *superoutput.SuperOutput) [][]string {
 	return [][]string{
 		dumpSingleThumbnail(
 			[]string{"-f", "singlejpeg"},
@@ -45,7 +61,7 @@ func dumpSingleJPG(format *cfmt.Format) [][]string {
 	}
 }
 
-func dumpSinglePNG(format *cfmt.Format) [][]string {
+func dumpSinglePNG(output *superoutput.SuperOutput) [][]string {
 	return [][]string{
 		dumpSingleThumbnail(
 			[]string{"-c:v", "png"},

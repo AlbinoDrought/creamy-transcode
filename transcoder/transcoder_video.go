@@ -2,18 +2,20 @@ package transcoder
 
 import (
 	"fmt"
+	"io/ioutil"
+	"path"
 
 	cfmt "github.com/AlbinoDrought/creamy-transcode/format"
+	"github.com/AlbinoDrought/creamy-transcode/transcoder/ffmpeg"
+	"github.com/pkg/errors"
 )
 
-// FormatToFFMPEG converts a Format to one or more ffmpeg commands
-func FormatToFFMPEG(format *cfmt.Format) [][]string {
-	specialHandler, ok := specialContainerHandlers[format.Container]
-	if ok {
-		return specialHandler(format)
-	}
+type VideoTranscoder struct{}
 
-	result := []string{}
+func (transcoder VideoTranscoder) Transcode(request *TranscodeRequest) TranscodeResult {
+	format := request.Format
+
+	result := []string{"-i", request.SourceLocalPath, "-strict", "-2"}
 
 	result = append(result, "-y", "-hide_banner", "-f", getFormat(format.Container))
 
@@ -78,17 +80,43 @@ func FormatToFFMPEG(format *cfmt.Format) [][]string {
 		}
 	}
 
-	commands := [][]string{}
+	transcodeResult := TranscodeResult{
+		Request:        request,
+		ResultingFiles: []string{},
+		Error:          nil,
+	}
+
+	outputTempDir, err := ioutil.TempDir(request.TemporaryLocalPath, "tv")
+	if err != nil {
+		transcodeResult.Error = errors.Wrapf(err, "error creating tempdir %v", request.TemporaryLocalPath)
+		return transcodeResult
+	}
+
+	outputPath := path.Join(outputTempDir, "video")
+
+	var commands [][]string
 
 	// experimental
 	if format.FormatOptions.TwoPass {
-		firstPass := append(result, "-pass", "1")
-		secondPass := append(result, "-pass", "2")
-
-		commands = append(commands, firstPass, secondPass)
+		commands = [][]string{
+			append(result, "-pass", "1", outputPath),
+			append(result, "-pass", "2", outputPath),
+		}
 	} else {
-		commands = append(commands, result)
+		commands = [][]string{
+			append(result, outputPath),
+		}
 	}
 
-	return commands
+	err = ffmpeg.TranscodeRawAll(commands)
+	if err != nil {
+		transcodeResult.Error = errors.Wrapf(err, "error running commands %+v", commands)
+		return transcodeResult
+	}
+
+	transcodeResult.ResultingFiles = []string{
+		outputPath,
+	}
+
+	return transcodeResult
 }
