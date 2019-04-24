@@ -188,6 +188,8 @@ func (transcoder ThumbnailTranscoder) Transcode(request *TranscodeRequest) Trans
 					strings.Join(videoFilters, ","),
 					"-ss",
 					strconv.Itoa(offset),
+					"-vframes",
+					"1",
 					fmt.Sprintf(outputPath, i),
 				),
 			)
