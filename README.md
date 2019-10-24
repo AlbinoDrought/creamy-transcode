@@ -1,4 +1,7 @@
-# creamy-transcode
+# Creamy Transcode
+
+<a href="https://travis-ci.org/AlbinoDrought/creamy-transcode"><img alt="Travis build status" src="https://img.shields.io/travis/AlbinoDrought/creamy-transcode.svg?maxAge=360"></a>
+<a href="https://github.com/AlbinoDrought/creamy-transcode/blob/master/LICENSE"><img alt="AGPL-3.0 License" src="https://img.shields.io/github/license/AlbinoDrought/creamy-transcode"></a>
 
 Simple self-hostable media transcoding SaaSS 
 
